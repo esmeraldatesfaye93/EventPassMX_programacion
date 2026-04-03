@@ -1,0 +1,103 @@
+﻿<Window x:Class="EventPassMX_programacion.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EventPass MX - Login" Height="360" Width="480" Background="#0F1724" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="InputBox" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,6,0,6" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Background" Value="#0F2433" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#24475A" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#2D89EF" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#3EA0FF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#1F6FD8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#107C10" />
+            <Setter Property="Width" Value="120" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1AA21B" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Border Width="420" Height="300" CornerRadius="12" Background="#0B1A26" Opacity="0.95" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="4">
+                    <TextBlock Text="EventPass" Foreground="#2D89EF" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" />
+                    <TextBlock Text=" MX" Foreground="White" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="320" x:Name="LoginPanel" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                    <StackPanel.RenderTransform>
+                        <TranslateTransform Y="10" />
+                    </StackPanel.RenderTransform>
+
+                    <TextBlock Text="Inicia sesión" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,6" />
+
+                    <TextBlock Text="Usuario" Foreground="#9FB6C3" FontSize="12" />
+                    <TextBox x:Name="UsernameTextBox" Style="{StaticResource InputBox}" />
+
+                    <TextBlock Text="Contraseña" Foreground="#9FB6C3" FontSize="12" Margin="0,4,0,0" />
+                    <PasswordBox x:Name="PasswordBox" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
+                        <Button Content="Iniciar sesión" Click="Login_Click" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0" />
+                        <Button Content="Crear cuenta" Click="CreateUser_Click" Style="{StaticResource SecondaryButton}" />
+                    </StackPanel>
+                    <!-- Estado / Mensajes -->
+                    <TextBlock x:Name="StatusTextBlock" Foreground="LightCoral" TextWrapping="Wrap" Margin="0,10,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Fade/slide animation on load -->
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="LoginPanel" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" />
+                        <DoubleAnimation Storyboard.TargetName="LoginPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="10" To="0" Duration="0:0:0.5" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+    </Grid>
+</Window>
