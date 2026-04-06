@@ -1,70 +1,88 @@
 ﻿<Application x:Class="EventPassMX_programacion.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:EventPassMX_programacion"
              StartupUri="MainWindow.xaml">
+
     <Application.Resources>
-        <SolidColorBrush x:Key="AccentBrush" Color="#2D89EF" />
-        <SolidColorBrush x:Key="AccentDarkBrush" Color="#24475A" />
-        <SolidColorBrush x:Key="PanelBackgroundBrush" Color="#0B1A26" />
-        <SolidColorBrush x:Key="InputBackgroundBrush" Color="#0F2433" />
 
-        <Style x:Key="InputBox" TargetType="Control">
-            <Setter Property="Margin" Value="0,6,0,6" />
-            <Setter Property="Padding" Value="8" />
-            <Setter Property="FontSize" Value="13" />
-            <Setter Property="Background" Value="{StaticResource InputBackgroundBrush}" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="BorderBrush" Value="{StaticResource AccentDarkBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Control">
-                        <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
-                            <Grid>
-                                <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <!-- 🌌 FONDO GLOBAL -->
+        <LinearGradientBrush x:Key="AppBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#0A0F1C"/>
+            <GradientStop Color="#0D1B2A"/>
+        </LinearGradientBrush>
 
-        <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Padding" Value="8,6" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Width" Value="120" />
+        <!-- 💜 HEADER -->
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#7F00FF"/>
+            <GradientStop Color="#E100FF"/>
+        </LinearGradientBrush>
+
+        <!-- 🔥 BOTÓN -->
+        <LinearGradientBrush x:Key="NeonButton" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#FF7A00"/>
+            <GradientStop Color="#FF3D00"/>
+        </LinearGradientBrush>
+
+        <!-- 🧊 CARD -->
+        <SolidColorBrush x:Key="CardBackground" Color="#111827"/>
+
+        <!-- TEXTO -->
+        <SolidColorBrush x:Key="PrimaryText" Color="White"/>
+        <SolidColorBrush x:Key="SecondaryText" Color="#9CA3AF"/>
+
+        <!-- 🔥 BOTÓN GLOBAL -->
+        <Style x:Key="BuyButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border x:Name="btn"
+                                CornerRadius="25"
+                                Background="{StaticResource NeonButton}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#FF3D00"
+                                                  BlurRadius="25"
+                                                  ShadowDepth="0"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
                         </Border>
+
+                        <!-- ✨ HOVER REAL -->
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="b" Property="Background" Value="#3EA0FF" />
+                                <Setter TargetName="btn" Property="Opacity" Value="0.85"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="b" Property="Background" Value="#1F6FD8" />
+                                <Setter TargetName="btn" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
-            <Setter Property="Background" Value="#107C10" />
-            <Setter Property="Width" Value="120" />
+        <!-- 💎 CARD GLOBAL -->
+        <Style x:Key="ModernCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="15" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
         </Style>
+
     </Application.Resources>
 </Application>

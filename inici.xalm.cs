@@ -9,6 +9,7 @@ namespace EventPassMX_programacion
     {
         private ListBox listaEventos;
         private string usuario;
+        private TextBlock lblWelcome;
 
         public Inicio(string usuario)
         {
@@ -21,14 +22,43 @@ namespace EventPassMX_programacion
             var root = new DockPanel();
 
             var top = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(8) };
-            var lbl = new TextBlock { Text = $"Bienvenido, {usuario}", FontSize = 14, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0,0,12,0) };
+            lblWelcome = new TextBlock { Text = $"Bienvenido, {usuario} (Puntos: {DataStore.GetPoints(usuario)})", FontSize = 14, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0,0,12,0) };
             var btnHistory = new Button { Content = "Historial", Width = 80, Margin = new Thickness(0,0,8,0) };
             btnHistory.Click += BtnHistory_Click;
+            var btnOptions = new Button { Content = "Opciones ▾", Width = 90, Margin = new Thickness(0,0,8,0) };
+            var optionsMenu = new ContextMenu();
+            var miReventa = new MenuItem { Header = "Reventa segura" };
+            miReventa.Click += (s, e) => { var w = new ResaleWindow(usuario) { Owner = this }; w.ShowDialog(); UpdateWelcomePoints(); };
+            var miCamaras = new MenuItem { Header = "Cámaras en vivo" };
+            miCamaras.Click += (s, e) => { var w = new LiveCamerasWindow(usuario) { Owner = this }; w.ShowDialog(); };
+            var miMultimedia = new MenuItem { Header = "Contenido multimedia" };
+            miMultimedia.Click += (s, e) => { var w = new MultimediaWindow(usuario) { Owner = this }; w.ShowDialog(); };
+            var miVotacion = new MenuItem { Header = "Votación de canciones" };
+            miVotacion.Click += (s, e) => { var w = new VotingWindow() { Owner = this }; w.ShowDialog(); };
+            var miPuntos = new MenuItem { Header = "Puntos y recompensas" };
+            miPuntos.Click += (s, e) => { var w = new RewardsWindow(usuario) { Owner = this }; w.ShowDialog(); UpdateWelcomePoints(); };
+            var miVIP = new MenuItem { Header = "Experiencia VIP" };
+            miVIP.Click += (s, e) => { var w = new VIPWindow(usuario) { Owner = this }; w.ShowDialog(); UpdateWelcomePoints(); };
+            var miRecuerdo = new MenuItem { Header = "Recuerdo digital" };
+            miRecuerdo.Click += (s, e) => { var w = new MemoryWindow(usuario) { Owner = this }; w.ShowDialog(); };
+            var miAcceso = new MenuItem { Header = "Acceso por tipo de boleto" };
+            miAcceso.Click += (s, e) => { var w = new AccessWindow(usuario) { Owner = this }; w.ShowDialog(); };
+            optionsMenu.Items.Add(miReventa);
+            optionsMenu.Items.Add(miCamaras);
+            optionsMenu.Items.Add(miMultimedia);
+            optionsMenu.Items.Add(miVotacion);
+            optionsMenu.Items.Add(miPuntos);
+            optionsMenu.Items.Add(miVIP);
+            optionsMenu.Items.Add(miRecuerdo);
+            optionsMenu.Items.Add(miAcceso);
+            btnOptions.ContextMenu = optionsMenu;
+            btnOptions.Click += (s, e) => { btnOptions.ContextMenu.IsOpen = true; };
             var btnLogout = new Button { Content = "Cerrar sesión", Width = 100 };
             btnLogout.Click += BtnLogout_Click;
 
-            top.Children.Add(lbl);
+            top.Children.Add(lblWelcome);
             top.Children.Add(btnHistory);
+            top.Children.Add(btnOptions);
             top.Children.Add(btnLogout);
 
             DockPanel.SetDock(top, Dock.Top);
@@ -111,6 +141,14 @@ namespace EventPassMX_programacion
             var win = new TicketsWindow(usuario, tickets);
             win.Owner = this;
             win.ShowDialog();
+        }
+
+        private void UpdateWelcomePoints()
+        {
+            if (lblWelcome != null)
+            {
+                lblWelcome.Text = $"Bienvenido, {usuario} (Puntos: {DataStore.GetPoints(usuario)})";
+            }
         }
     }
 }
