@@ -17,7 +17,7 @@ namespace EventPassMX_programacion
             this.Width = 520;
             this.Height = 340;
 
-            // 🎨 COLORES
+           
             Brush bg = new SolidColorBrush(Color.FromRgb(30, 30, 50));
             Brush primary = new SolidColorBrush(Color.FromRgb(55, 55, 80));
             Brush accent = new SolidColorBrush(Color.FromRgb(140, 100, 255));

@@ -8,6 +8,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <!-- Rely on SDK-style implicit globbing to include .cs files -->
+	
 
 </Project>

@@ -28,7 +28,7 @@ namespace EventPassMX_programacion
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-            // Left: available resales
+            
             var left = new StackPanel();
             left.Children.Add(new TextBlock { Text = "Reventas disponibles", FontWeight = FontWeights.Bold });
             lstResales = new ListBox { Height = 260 };
@@ -39,7 +39,7 @@ namespace EventPassMX_programacion
             Grid.SetColumn(left, 0);
             grid.Children.Add(left);
 
-            // Right: create resale
+            
             var right = new StackPanel();
             right.Children.Add(new TextBlock { Text = "Mis tickets", FontWeight = FontWeights.Bold });
             cbMyTickets = new ComboBox { Height = 120 };

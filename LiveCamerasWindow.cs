@@ -18,16 +18,16 @@ namespace EventPassMX_programacion
             this.Height = 400;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-            // 🌌 GRID PRINCIPAL
+            
             var grid = new Grid
             {
                 Background = (Brush)Application.Current.Resources["AppBackground"]
             };
 
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(70) }); // Header
-            grid.RowDefinitions.Add(new RowDefinition()); // Contenido
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(70) });
+            grid.RowDefinitions.Add(new RowDefinition()); 
 
-            // 🔥 HEADER
+            
             var header = new Border
             {
                 Background = (Brush)Application.Current.Resources["HeaderGradient"],
@@ -45,7 +45,7 @@ namespace EventPassMX_programacion
             Grid.SetRow(header, 0);
             grid.Children.Add(header);
 
-            // 🧊 CONTENIDO (CARD)
+            
             var card = new Border
             {
                 Background = (Brush)Application.Current.Resources["CardBackground"],
@@ -74,7 +74,7 @@ namespace EventPassMX_programacion
 
             content.Children.Add(cbTickets);
 
-            // 🔥 BOTÓN VER
+            
             var btnView = new Button
             {
                 Content = "VER CÁMARAS",
@@ -85,7 +85,7 @@ namespace EventPassMX_programacion
             btnView.Click += BtnView_Click;
             content.Children.Add(btnView);
 
-            // ❌ BOTÓN CERRAR
+          
             var btnClose = new Button
             {
                 Content = "Cerrar",

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -10,7 +10,19 @@ namespace EventPassMX_programacion
     {
         public string Nombre { get; set; }
         public decimal Precio { get; set; }
+        public Artista Artista { get; set; }
+        public DateTime Fecha { get; set; }
+        public string Ciudad { get; set; }
+        public string Categoria { get; set; }
+        public bool IsSoldOut { get; set; }
+        public bool IsNew { get; set; }
+    }
 
+    public class Artista
+    {
+        public string Nombre { get; set; }
+        public string Genero { get; set; }
+        public string Descripcion { get; set; }
     }
 
     public class Ticket
@@ -20,9 +32,7 @@ namespace EventPassMX_programacion
         public Evento Evento { get; set; }
         public DateTime FechaCompra { get; set; }
         public decimal Precio { get; set; }
-        // Access level (General, VIP, etc.)
         public AccessLevel Access { get; set; } = AccessLevel.General;
-        // Simple QR code/token representation for the ticket
         public string QRCode { get; set; }
     }
 
@@ -45,7 +55,7 @@ namespace EventPassMX_programacion
     public class MultimediaItem
     {
         public string EventName { get; set; }
-        public string Type { get; set; } // Photo, Video, Replay
+        public string Type { get; set; }
         public string Url { get; set; }
         public bool IsVipOnly { get; set; }
     }
@@ -70,7 +80,6 @@ namespace EventPassMX_programacion
 
     public static class DataStore
     {
-
         private static readonly string _dataPath;
         private static readonly object _persistenceLock = new object();
 
@@ -85,28 +94,27 @@ namespace EventPassMX_programacion
         private static readonly List<User> _userList = new List<User>();
         public static IReadOnlyList<User> Users => _userList.AsReadOnly();
 
+        public static List<Artista> Artistas { get; } = new List<Artista>
+        {
+            new Artista { Nombre = "Artista A", Genero = "Pop", Descripcion = "Artista principal del Concierto A" },
+            new Artista { Nombre = "Artista B", Genero = "Teatro/Performance", Descripcion = "Protagonista de Teatro B" },
+            new Artista { Nombre = "Artista C", Genero = "Festival", Descripcion = "Line-up principal del Festival C" }
+        };
 
         public static List<Evento> Eventos { get; } = new List<Evento>
         {
-            new Evento { Nombre = "Concierto A", Precio = 550.00m },
-            new Evento { Nombre = "Teatro B", Precio = 320.50m },
-            new Evento { Nombre = "Festival C", Precio = 790.00m }
+            new Evento { Nombre = "Concierto A", Precio = 550.00m, Artista = Artistas[0], Fecha = DateTime.Now.AddDays(12), Ciudad = "Ciudad de México", Categoria = "Música", IsNew = false, IsSoldOut = false },
+            new Evento { Nombre = "Teatro B", Precio = 320.50m, Artista = Artistas[1], Fecha = DateTime.Now.AddDays(20), Ciudad = "Guadalajara", Categoria = "Teatro", IsNew = true, IsSoldOut = false },
+            new Evento { Nombre = "Festival C", Precio = 790.00m, Artista = Artistas[2], Fecha = DateTime.Now.AddDays(45), Ciudad = "Monterrey", Categoria = "Festival", IsNew = false, IsSoldOut = true }
         };
 
-
         private static readonly List<Ticket> _tickets = new List<Ticket>();
-        // resale listings
         private static readonly List<ResaleListing> _resales = new List<ResaleListing>();
-        // multimedia content
         private static readonly List<MultimediaItem> _multimedia = new List<MultimediaItem>();
-        // voting
         private static readonly List<VoteEntry> _votes = new List<VoteEntry>();
-        // reward points per user
-        private static readonly Dictionary<string, int> _points = new Dictionary<string, int>(System.StringComparer.OrdinalIgnoreCase);
-        // digital memories
+        private static readonly Dictionary<string, int> _points = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         private static readonly List<DigitalMemory> _memories = new List<DigitalMemory>();
 
-        // --- Persistence helpers ---
         private class PersistentModel
         {
             public List<User> Users { get; set; } = new List<User>();
@@ -139,7 +147,7 @@ namespace EventPassMX_programacion
                     File.WriteAllText(_dataPath, json);
                 }
             }
-            catch { /* ignore persistence errors for now */ }
+            catch { }
         }
 
         private static void Load()
@@ -223,7 +231,6 @@ namespace EventPassMX_programacion
                 QRCode = GenerateQrCode()
             };
             _tickets.Add(t);
-            // Add points
             AddPointsForUser(username, evento.Precio);
             Save();
             return t;
@@ -231,10 +238,9 @@ namespace EventPassMX_programacion
 
         private static string GenerateQrCode()
         {
-            return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=","").Replace("/","_").Replace("+","-");
+            return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "_").Replace("+", "-");
         }
 
-        // Create ticket applying a fixed discount amount (discount applied to price paid)
         public static Ticket CreateTicketWithDiscount(string username, Evento evento, decimal discountAmount)
         {
             if (string.IsNullOrWhiteSpace(username) || evento == null)
@@ -253,18 +259,16 @@ namespace EventPassMX_programacion
                 QRCode = GenerateQrCode()
             };
             _tickets.Add(t);
-            // Add points based on amount actually paid
             AddPointsForUser(username, finalPrice);
             Save();
             return t;
         }
 
-        // Resale: create listing (price must not exceed original price to enforce same price / limit)
         public static ResaleListing CreateResale(Guid ticketId, string seller, decimal price)
         {
             var ticket = _tickets.Find(t => t.Id == ticketId && t.Usuario == seller);
             if (ticket == null) return null;
-            if (price > ticket.Precio) return null; // enforce same price or lower
+            if (price > ticket.Precio) return null;
 
             var r = new ResaleListing { TicketId = ticketId, Seller = seller, Price = price };
             _resales.Add(r);
@@ -282,7 +286,6 @@ namespace EventPassMX_programacion
             return list;
         }
 
-        // Buy a resale: transfer ownership and regenerate QR
         public static bool BuyResale(Guid resaleId, string buyer)
         {
             var r = _resales.Find(x => x.Id == resaleId && x.IsAvailable);
@@ -290,17 +293,14 @@ namespace EventPassMX_programacion
             var ticket = _tickets.Find(t => t.Id == r.TicketId);
             if (ticket == null) return false;
 
-            // transfer
             ticket.Usuario = buyer;
-            ticket.QRCode = GenerateQrCode(); // change QR to avoid fraud
+            ticket.QRCode = GenerateQrCode();
             r.IsAvailable = false;
-            // give points for buyer
             AddPointsForUser(buyer, r.Price);
             Save();
             return true;
         }
 
-        // Multimedia management
         public static void AddMultimedia(MultimediaItem item)
         {
             if (item == null) return;
@@ -315,7 +315,6 @@ namespace EventPassMX_programacion
             return list;
         }
 
-        // Voting
         public static void VoteForOption(string eventName, string optionId, string optionName)
         {
             var v = _votes.Find(x => x.EventName == eventName && x.OptionId == optionId);
@@ -333,11 +332,10 @@ namespace EventPassMX_programacion
             return _votes.FindAll(x => x.EventName == eventName);
         }
 
-        // Rewards / points
         public static void AddPointsForUser(string username, decimal amount)
         {
             if (string.IsNullOrWhiteSpace(username)) return;
-            var earned = (int)Math.Floor(amount / 200m); // $200 = 1 point
+            var earned = (int)Math.Floor(amount / 200m);
             if (earned <= 0) return;
             if (!_points.ContainsKey(username)) _points[username] = 0;
             _points[username] += earned;
@@ -359,13 +357,11 @@ namespace EventPassMX_programacion
             return true;
         }
 
-        // VIP purchase - mark a ticket or create VIP access record. Here we mark a ticket's access level when buying
         public static Ticket PurchaseVIP(string username, Evento evento, VIPPackage package)
         {
             var t = CreateTicket(username, evento);
             if (t == null) return null;
             t.Access = AccessLevel.VIP;
-            // award points
             AddPointsForUser(username, evento.Precio);
             Save();
             return t;
@@ -378,13 +374,11 @@ namespace EventPassMX_programacion
             public string Description { get; set; }
         }
 
-        // Digital memory generation
         public static DigitalMemory GenerateDigitalMemory(string username, Guid ticketId)
         {
             var ticket = _tickets.Find(t => t.Id == ticketId && t.Usuario == username);
             if (ticket == null) return null;
             var mem = new DigitalMemory { Username = username, TicketId = ticketId };
-            // gather multimedia for event (non-VIP + VIP if VIP ticket)
             var allowVip = ticket.Access == AccessLevel.VIP;
             foreach (var m in _multimedia)
             {

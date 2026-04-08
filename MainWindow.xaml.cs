@@ -3,9 +3,7 @@ using System.Windows.Controls;
 
 namespace EventPassMX_programacion
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -13,10 +11,10 @@ namespace EventPassMX_programacion
             InitializeComponent();
         }
 
-        // Handlers compatible with previous UI
+        
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            // read from controls (support both naming schemes)
+            
             var user = (this.FindName("txtUser") as TextBox)?.Text?.Trim() ?? (this.FindName("UsernameTextBox") as TextBox)?.Text?.Trim();
             var pass = (this.FindName("txtPass") as PasswordBox)?.Password ?? (this.FindName("PasswordBox") as PasswordBox)?.Password;
             PerformLogin(user, pass);
@@ -27,7 +25,7 @@ namespace EventPassMX_programacion
             OpenCreateWindow();
         }
 
-        // New handlers matching provided XAML names
+        
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             var user = (this.FindName("txtUser") as TextBox)?.Text?.Trim() ?? (this.FindName("UsernameTextBox") as TextBox)?.Text?.Trim();
@@ -50,7 +48,7 @@ namespace EventPassMX_programacion
 
             if (DataStore.ValidateUser(user, pass))
             {
-                // clear fields if present
+               
                 if (this.FindName("UsernameTextBox") is TextBox ut) ut.Clear();
                 if (this.FindName("PasswordBox") is PasswordBox pt) pt.Clear();
                 if (this.FindName("txtUser") is TextBox ut2) ut2.Clear();

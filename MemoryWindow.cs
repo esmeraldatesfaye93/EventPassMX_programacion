@@ -18,11 +18,10 @@ namespace EventPassMX_programacion
             this.Width = 500;
             this.Height = 350;
 
-            // 🎨 COLORES MEJORADOS (más claros)
-            this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)); // antes 18,18,30
-            Brush primary = new SolidColorBrush(Color.FromRgb(55, 55, 80));   // más claro
-            Brush accent = new SolidColorBrush(Color.FromRgb(140, 100, 255)); // más brillante
-            Brush textColor = new SolidColorBrush(Color.FromRgb(230, 230, 255)); // no blanco puro
+            this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)); 
+            Brush primary = new SolidColorBrush(Color.FromRgb(55, 55, 80));  
+            Brush accent = new SolidColorBrush(Color.FromRgb(140, 100, 255)); 
+            Brush textColor = new SolidColorBrush(Color.FromRgb(230, 230, 255)); 
 
             var grid = new Grid { Margin = new Thickness(15) };
 
@@ -30,7 +29,7 @@ namespace EventPassMX_programacion
             grid.RowDefinitions.Add(new RowDefinition());
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            // 🔹 TÍTULO
+            
             var title = new TextBlock
             {
                 Text = "Generar recuerdo",
@@ -40,7 +39,7 @@ namespace EventPassMX_programacion
                 Margin = new Thickness(0, 0, 0, 10)
             };
 
-            // 🔹 COMBO
+            
             cbTickets = new ComboBox
             {
                 Background = primary,
@@ -49,7 +48,7 @@ namespace EventPassMX_programacion
                 Height = 35
             };
 
-            // 🔹 BOTÓN
+            
             var btn = new Button
             {
                 Content = "Generar",
@@ -84,7 +83,7 @@ namespace EventPassMX_programacion
                 {
                     Content = $"{t.Evento.Nombre} - {t.FechaCompra}",
                     Tag = t.Id,
-                    Foreground = Brushes.Black // 👈 importante para que se lea dentro del dropdown
+                    Foreground = Brushes.Black 
                 });
             }
         }
