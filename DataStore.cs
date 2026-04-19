@@ -397,5 +397,41 @@ namespace EventPassMX_programacion
         {
             return _tickets.FindAll(x => x.Usuario == username);
         }
+
+        public static bool ProcesarPago(string tarjeta, string nombre, string fecha, string cvv)
+        {
+            if (string.IsNullOrWhiteSpace(tarjeta) ||
+                string.IsNullOrWhiteSpace(nombre) ||
+                string.IsNullOrWhiteSpace(fecha) ||
+                string.IsNullOrWhiteSpace(cvv))
+                return false;
+
+            
+            if (tarjeta.Length < 12 || cvv.Length < 3)
+                return false;
+
+            return true; 
+        }
+
+        public static string GenerarTicketArchivo(Ticket t)
+        {
+            var path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                $"Ticket_{t.Id}.txt");
+
+            var contenido =
+        $@"EVENTPASS MX
+---------------------
+Evento: {t.Evento.Nombre}
+Usuario: {t.Usuario}
+Fecha: {t.FechaCompra}
+Precio: ${t.Precio}
+Folio: {t.Id}
+QR: {t.QRCode}
+---------------------";
+
+            File.WriteAllText(path, contenido);
+            return path;
+        }
     }
 }
