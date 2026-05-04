@@ -34,6 +34,8 @@ namespace EventPassMX_programacion
         public decimal Precio { get; set; }
         public AccessLevel Access { get; set; } = AccessLevel.General;
         public string QRCode { get; set; }
+
+        public int Cantidad { get; set; }
     }
 
     public enum AccessLevel
@@ -398,21 +400,7 @@ namespace EventPassMX_programacion
             return _tickets.FindAll(x => x.Usuario == username);
         }
 
-        public static bool ProcesarPago(string tarjeta, string nombre, string fecha, string cvv)
-        {
-            if (string.IsNullOrWhiteSpace(tarjeta) ||
-                string.IsNullOrWhiteSpace(nombre) ||
-                string.IsNullOrWhiteSpace(fecha) ||
-                string.IsNullOrWhiteSpace(cvv))
-                return false;
-
-            
-            if (tarjeta.Length < 12 || cvv.Length < 3)
-                return false;
-
-            return true; 
-        }
-
+        
         public static string GenerarTicketArchivo(Ticket t)
         {
             var path = Path.Combine(

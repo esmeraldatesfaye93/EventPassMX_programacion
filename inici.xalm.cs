@@ -67,6 +67,7 @@ namespace EventPassMX_programacion
             sideStack.Children.Add(CrearBoton("📷", "Cámaras", (s, e) => new LiveCamerasWindow(usuario).ShowDialog()));
             sideStack.Children.Add(CrearBoton("🗳️", "Votar", (s, e) => new VotingWindow().ShowDialog()));
             sideStack.Children.Add(CrearBoton("🎁", "Rewards", (s, e) => new RewardsWindow(usuario).ShowDialog()));
+            sideStack.Children.Add(CrearBoton("📜", "Historial", (s, e) => new HistorialWindow(usuario).ShowDialog()));
 
             sidebar.Child = sideStack;
 

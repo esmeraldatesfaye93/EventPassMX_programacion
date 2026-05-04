@@ -63,17 +63,7 @@ namespace EventPassMX_programacion
 
         private void BtnPagar_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCard.Text) || txtCard.Text.Length < 12)
-            {
-                MessageBox.Show("Tarjeta inválida");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                MessageBox.Show("Ingresa el nombre");
-                return;
-            }
+            
 
             Ticket ticket = null;
 

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace EventPassMX_programacion
 {
-    public class HistorialWindow : Window
+    public partial class HistorialCompras : Window
     {
-        public HistorialWindow(string usuario)
+        public HistorialCompras(string usuario)
         {
             this.Title = "Historial de compras";
             this.Width = 400;
