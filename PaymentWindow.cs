@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ namespace EventPassMX_programacion
 
         private TextBox txtCard;
         private TextBox txtName;
+        private TextBox txtQuantity;
 
         public PaymentWindow(string user, Evento ev, AccessLevel t)
         {
@@ -21,90 +23,218 @@ namespace EventPassMX_programacion
             tipo = t;
 
             this.Title = "Pago Seguro";
-            this.Width = 400;
-            this.Height = 330;
+            this.Width = 450;
+            this.Height = 420;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this.Background = new SolidColorBrush(Color.FromRgb(20, 20, 35));
 
+            var scroll = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             var stack = new StackPanel { Margin = new Thickness(20) };
 
-            stack.Children.Add(new TextBlock { Text = $"Evento: {evento.Nombre}", Foreground = Brushes.White });
-            stack.Children.Add(new TextBlock { Text = $"Tipo: {tipo}", Foreground = Brushes.Gray });
+            // Encabezado
             stack.Children.Add(new TextBlock
             {
-                Text = $"Total: ${evento.Precio}",
-                Foreground = Brushes.LightGreen,
-                FontSize = 16
+                Text = "PAGO SEGURO",
+                Foreground = Brushes.White,
+                FontSize = 18,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(0, 0, 0, 15)
             });
 
-            stack.Children.Add(new TextBlock { Text = "Número de tarjeta", Foreground = Brushes.White });
+            // Información del evento
+            stack.Children.Add(new TextBlock { Text = "Evento", Foreground = Brushes.Gray, FontSize = 11 });
+            stack.Children.Add(new TextBlock { Text = evento.Nombre, Foreground = Brushes.White, FontSize = 14, Margin = new Thickness(0, 0, 0, 10) });
 
-            txtCard = new TextBox { Height = 30 };
+            stack.Children.Add(new TextBlock { Text = "Tipo de Acceso", Foreground = Brushes.Gray, FontSize = 11 });
+            stack.Children.Add(new TextBlock { Text = tipo.ToString(), Foreground = Brushes.LimeGreen, FontSize = 14, Margin = new Thickness(0, 0, 0, 10) });
+
+            // Cantidad
+            stack.Children.Add(new TextBlock { Text = "Cantidad de Boletos", Foreground = Brushes.Gray, FontSize = 11 });
+            txtQuantity = new TextBox
+            {
+                Height = 32,
+                Padding = new Thickness(10),
+                Text = "1",
+                Foreground = Brushes.White,
+                Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)),
+                CaretBrush = Brushes.White,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+            stack.Children.Add(txtQuantity);
+
+            // Total
+            var totalPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 15) };
+            totalPanel.Children.Add(new TextBlock { Text = "Total: ", Foreground = Brushes.Gray });
+            var totalBlock = new TextBlock
+            {
+                Text = $"${evento.Precio}",
+                Foreground = Brushes.LimeGreen,
+                FontSize = 16,
+                FontWeight = FontWeights.Bold
+            };
+            totalPanel.Children.Add(totalBlock);
+            stack.Children.Add(totalPanel);
+
+            // Número de tarjeta
+            stack.Children.Add(new TextBlock { Text = "Número de Tarjeta", Foreground = Brushes.Gray, FontSize = 11 });
+            txtCard = new TextBox
+            {
+                Height = 32,
+                Padding = new Thickness(10),
+                Foreground = Brushes.White,
+                Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)),
+                CaretBrush = Brushes.White,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+            txtCard.TextChanged += (s, e) => UpdateTotal(totalBlock);
             stack.Children.Add(txtCard);
 
-            stack.Children.Add(new TextBlock { Text = "Nombre en tarjeta", Foreground = Brushes.White });
-
-            txtName = new TextBox { Height = 30 };
+            // Nombre en tarjeta
+            stack.Children.Add(new TextBlock { Text = "Nombre en Tarjeta", Foreground = Brushes.Gray, FontSize = 11 });
+            txtName = new TextBox
+            {
+                Height = 32,
+                Padding = new Thickness(10),
+                Foreground = Brushes.White,
+                Background = new SolidColorBrush(Color.FromRgb(30, 30, 50)),
+                CaretBrush = Brushes.White,
+                Margin = new Thickness(0, 0, 0, 15)
+            };
             stack.Children.Add(txtName);
 
+            // Botones
+            var btnStack = new StackPanel { Orientation = Orientation.Horizontal };
             var btnPagar = new Button
             {
-                Content = "Pagar ahora",
+                Content = "💳 Pagar Ahora",
                 Background = Brushes.Green,
                 Foreground = Brushes.White,
-                Height = 40,
-                Margin = new Thickness(0, 15, 0, 0)
+                Height = 45,
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(0, 0, 10, 0),
+                Cursor = System.Windows.Input.Cursors.Hand,
+                Padding = new Thickness(15, 10, 15, 10)
             };
-
             btnPagar.Click += BtnPagar_Click;
-            stack.Children.Add(btnPagar);
 
-            this.Content = stack;
+            var btnCancelar = new Button
+            {
+                Content = "✕ Cancelar",
+                Background = new SolidColorBrush(Color.FromRgb(200, 50, 50)),
+                Foreground = Brushes.White,
+                Height = 45,
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                Cursor = System.Windows.Input.Cursors.Hand,
+                Padding = new Thickness(15, 10, 15, 10)
+            };
+            btnCancelar.Click += (s, e) => this.Close();
+
+            btnStack.Children.Add(btnPagar);
+            btnStack.Children.Add(btnCancelar);
+
+            stack.Children.Add(btnStack);
+
+            scroll.Content = stack;
+            this.Content = scroll;
+        }
+
+        private void UpdateTotal(TextBlock totalBlock)
+        {
+            if (int.TryParse(txtQuantity.Text, out int cantidad) && cantidad > 0)
+            {
+                totalBlock.Text = $"${evento.Precio * cantidad}";
+            }
         }
 
         private void BtnPagar_Click(object sender, RoutedEventArgs e)
         {
-            
-
-            Ticket ticket = null;
-
-            if (tipo == AccessLevel.General)
+            // Validar cantidad
+            if (!int.TryParse(txtQuantity.Text, out int cantidad) || cantidad <= 0)
             {
-                ticket = DataStore.CreateTicket(usuario, evento);
+                MessageBox.Show("Por favor ingresa una cantidad válida de boletos (mínimo 1).", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtQuantity.Focus();
+                return;
             }
-            else
-            {
-                var pkg = new DataStore.VIPPackage
-                {
-                    Name = tipo.ToString(),
-                    Price = evento.Precio * 0.3m,
-                    Description = "VIP"
-                };
 
-                ticket = DataStore.PurchaseVIP(usuario, evento, pkg);
+            // Validar tarjeta
+            if (string.IsNullOrWhiteSpace(txtCard.Text))
+            {
+                MessageBox.Show("Por favor ingresa el número de tarjeta.", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtCard.Focus();
+                return;
+            }
+
+            if (txtCard.Text.Length < 13)
+            {
+                MessageBox.Show("El número de tarjeta debe tener al menos 13 dígitos.", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtCard.Focus();
+                return;
+            }
+
+            // Validar nombre
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("Por favor ingresa el nombre en la tarjeta.", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtName.Focus();
+                return;
+            }
+
+            if (txtName.Text.Length < 3)
+            {
+                MessageBox.Show("El nombre en la tarjeta debe tener al menos 3 caracteres.", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtName.Focus();
+                return;
+            }
+
+            try
+            {
+                Ticket ticket = null;
+
+                if (tipo == AccessLevel.General)
+                {
+                    ticket = DataStore.CreateTicket(usuario, evento);
+                }
+                else
+                {
+                    var pkg = new DataStore.VIPPackage
+                    {
+                        Name = tipo.ToString(),
+                        Price = evento.Precio * 0.3m,
+                        Description = "VIP"
+                    };
+
+                    ticket = DataStore.PurchaseVIP(usuario, evento, pkg);
+
+                    if (ticket != null)
+                        ticket.Access = tipo;
+                }
 
                 if (ticket != null)
-                    ticket.Access = tipo;
-            }
-
-            if (ticket != null)
-            {
-                var path = GeneradorBoletos.GeneratePDF(ticket);
-
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
-                    FileName = path,
-                    UseShellExecute = true
-                });
+                    // Generar PDF con información completa
+                    string asientos = "N/A";
+                    var path = GeneradorBoletos.GeneratePDF(ticket, cantidad, asientos);
 
-                MessageBox.Show($"Pago exitoso\nFolio: {ticket.QRCode}");
+                    // Mostrar ventana de confirmación
+                    var confirmWindow = new OrderConfirmationWindow(ticket, path, cantidad, asientos);
+                    confirmWindow.Owner = this;
+                    confirmWindow.ShowDialog();
 
-                new HistorialWindow(usuario).Show();
+                    // Mostrar historial
+                    new HistorialWindow(usuario).Show();
 
-                this.Close();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Error al procesar el pago. Intenta de nuevo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Error en el pago");
+                MessageBox.Show($"Error al procesar el pago:\n{ex.Message}\n\nDetalles: {ex.InnerException?.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

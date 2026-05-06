@@ -21,6 +21,8 @@ namespace EventPassMX_programacion
             this.Title = "EventPass MX";
             this.Width = 1100;
             this.Height = 650;
+            this.WindowStyle = WindowStyle.None;
+            this.WindowState = WindowState.Maximized;
             this.Background = new SolidColorBrush(Color.FromRgb(18, 18, 30));
 
             var root = new DockPanel();
@@ -224,14 +226,36 @@ namespace EventPassMX_programacion
         #region FILTRO
         private void Filtrar()
         {
-            var lista = DataStore.Eventos.AsEnumerable();
+            var busqueda = txtBuscar.Text?.Trim() ?? "";
 
-            if (!string.IsNullOrWhiteSpace(txtBuscar.Text) && txtBuscar.Text != "Buscar...")
+            if (string.IsNullOrWhiteSpace(busqueda) || busqueda == "Buscar...")
             {
-                lista = lista.Where(e => e.Nombre.ToLower().Contains(txtBuscar.Text.ToLower()));
+                CargarEventos(DataStore.Eventos);
+                return;
             }
 
-            CargarEventos(lista.ToList());
+            var lista = DataStore.Eventos.Where(e => 
+                e.Nombre.ToLower().Contains(busqueda.ToLower()) ||
+                e.Ciudad.ToLower().Contains(busqueda.ToLower()) ||
+                e.Categoria.ToLower().Contains(busqueda.ToLower()) ||
+                (e.Artista?.Nombre?.ToLower().Contains(busqueda.ToLower()) ?? false)
+            ).ToList();
+
+            if (lista.Count == 0)
+            {
+                panelEventos.Children.Clear();
+                panelEventos.Children.Add(new TextBlock
+                {
+                    Text = "No se encontraron eventos.",
+                    Foreground = Brushes.Gray,
+                    FontSize = 14,
+                    Margin = new Thickness(20)
+                });
+            }
+            else
+            {
+                CargarEventos(lista);
+            }
         }
         #endregion
 

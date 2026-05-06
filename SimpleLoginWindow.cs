@@ -44,15 +44,38 @@ namespace EventPassMX_programacion
         {
             var user = txtUser.Text?.Trim();
             var pass = txtPass.Password;
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
+
+            if (string.IsNullOrEmpty(user))
             {
-                MessageBox.Show("Ingrese usuario y contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor ingresa tu usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtUser.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(pass))
+            {
+                MessageBox.Show("Por favor ingresa tu contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtPass.Focus();
+                return;
+            }
+
+            if (user.Length < 3)
+            {
+                MessageBox.Show("El usuario debe tener al menos 3 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtUser.Focus();
+                return;
+            }
+
+            if (pass.Length < 3)
+            {
+                MessageBox.Show("La contraseña debe tener al menos 3 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtPass.Focus();
                 return;
             }
 
             if (DataStore.ValidateUser(user, pass))
             {
-                MessageBox.Show($"Bienvenido {user}", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"¡Bienvenido {user}!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                 var inicio = new Inicio(user);
                 inicio.Owner = this;
                 inicio.Show();
@@ -61,6 +84,8 @@ namespace EventPassMX_programacion
             else
             {
                 MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtPass.Clear();
+                txtPass.Focus();
             }
         }
 

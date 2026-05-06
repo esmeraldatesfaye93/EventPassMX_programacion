@@ -93,34 +93,58 @@ namespace EventPassMX_programacion
             };
         }
 
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            var user = txtNewUser.Text?.Trim();
+            var pass = txtNewPass.Password;
+
+            if (string.IsNullOrEmpty(user))
+            {
+                MessageBox.Show("Por favor ingresa un usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNewUser.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(pass))
+            {
+                MessageBox.Show("Por favor ingresa una contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNewPass.Focus();
+                return;
+            }
+
+            if (user.Length < 3)
+            {
+                MessageBox.Show("El usuario debe tener al menos 3 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNewUser.Focus();
+                return;
+            }
+
+            if (pass.Length < 3)
+            {
+                MessageBox.Show("La contraseña debe tener al menos 3 caracteres.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNewPass.Focus();
+                return;
+            }
+
+            if (DataStore.AddUser(user, pass))
+            {
+                MessageBox.Show($"¡Cuenta creada exitosamente! Bienvenido {user}", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Este usuario ya existe. Por favor elige otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtNewUser.Focus();
+                txtNewUser.SelectAll();
+            }
+        }
+
         private void AddHoverEffect(Button btn, Color hover, Color normal)
         {
             var hb = new SolidColorBrush(normal);
             btn.Background = hb;
             btn.MouseEnter += (s, e) => hb.Color = hover;
             btn.MouseLeave += (s, e) => hb.Color = normal;
-        }
-
-        private void BtnCreate_Click(object sender, RoutedEventArgs e)
-        {
-            var user = txtNewUser.Text?.Trim();
-            var pass = txtNewPass.Password;
-
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
-            {
-                MessageBox.Show("Ingrese usuario y contraseña.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (DataStore.AddUser(user, pass))
-            {
-                MessageBox.Show("Cuenta creada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("El usuario ya existe o datos inválidos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
     }
 }
