@@ -106,7 +106,7 @@ namespace EventPassMX_programacion
             var btnStack = new StackPanel { Orientation = Orientation.Horizontal };
             var btnPagar = new Button
             {
-                Content = "💳 Pagar Ahora",
+                Content = "Pagar Ahora",
                 Background = Brushes.Green,
                 Foreground = Brushes.White,
                 Height = 45,
@@ -213,16 +213,34 @@ namespace EventPassMX_programacion
 
                 if (ticket != null)
                 {
-                    // Generar PDF con información completa
-                    string asientos = "N/A";
+
+                    string asientos = "";
+
+                    if (evento.Nombre.Contains("Stairway To The Sky Tour"))
+                    {
+                        asientos = "VIP A1, VIP A2";
+                    }
+                    else if (evento.Nombre.Contains("After Hours Til Dawn"))
+                    {
+                        asientos = "B15, B16";
+                    }
+                    else if (evento.Nombre.Contains("Tecate Pa'l Norte 2026"))
+                    {
+                        asientos = "Zona General";
+                    }
+                    else
+                    {
+                        asientos = "N/A";
+                    }
+
+
                     var path = GeneradorBoletos.GeneratePDF(ticket, cantidad, asientos);
 
-                    // Mostrar ventana de confirmación
                     var confirmWindow = new OrderConfirmationWindow(ticket, path, cantidad, asientos);
                     confirmWindow.Owner = this;
                     confirmWindow.ShowDialog();
 
-                    // Mostrar historial
+
                     new HistorialWindow(usuario).Show();
 
                     this.Close();

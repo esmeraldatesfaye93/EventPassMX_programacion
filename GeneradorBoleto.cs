@@ -57,7 +57,7 @@ namespace EventPassMX_programacion
                     doc.Add(CrearLinea("Tipo de Acceso:", t.Access.ToString()));
                     doc.Add(CrearLinea("Cantidad de Boletos:", cantidad.ToString()));
                     doc.Add(CrearLinea("Asientos:", asientos));
-                    doc.Add(CrearLinea("Fecha de Compra:", t.FechaCompra.ToString("dd/MM/yyyy HH:mm:ss")));
+                    doc.Add(CrearLinea("Fecha de Compra:", t.FechaCompra.ToString("dd/MM/yyyy")));
                     doc.Add(new Paragraph(" "));
 
                     // INFORMACIÓN DE PAGO
@@ -141,7 +141,7 @@ namespace EventPassMX_programacion
                         .SetFontSize(9)
                         .SetFontColor(ColorConstants.GRAY));
 
-                    doc.Add(new Paragraph($"Generado: {DateTime.Now:dd/MM/yyyy HH:mm:ss}")
+                    doc.Add(new Paragraph($"Generado: {DateTime.Now:dd/MM/yyyy}")
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetFontSize(8)
                         .SetFontColor(ColorConstants.LIGHT_GRAY));

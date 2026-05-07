@@ -98,16 +98,48 @@ namespace EventPassMX_programacion
 
         public static List<Artista> Artistas { get; } = new List<Artista>
         {
-            new Artista { Nombre = "Artista A", Genero = "Pop", Descripcion = "Artista principal del Concierto A" },
-            new Artista { Nombre = "Artista B", Genero = "Teatro/Performance", Descripcion = "Protagonista de Teatro B" },
-            new Artista { Nombre = "Artista C", Genero = "Festival", Descripcion = "Line-up principal del Festival C" }
+            new Artista { Nombre = "Zayn Malik", Genero = "Pop/R&B", Descripcion = "" },
+            new Artista { Nombre = "The Weeknd", Genero = "Pop/R&B", Descripcion = "Concierto con producción visual cinematográfica y sus mayores éxitos internacionales." },
+            new Artista { Nombre = "Tecate Pa'l Norte 2026", Genero = "Festival", Descripcion = "Festival musical con artistas nacionales e internacionales de múltiples géneros." }
         };
 
         public static List<Evento> Eventos { get; } = new List<Evento>
         {
-            new Evento { Nombre = "Concierto A", Precio = 550.00m, Artista = Artistas[0], Fecha = DateTime.Now.AddDays(12), Ciudad = "Ciudad de México", Categoria = "Música", IsNew = false, IsSoldOut = false },
-            new Evento { Nombre = "Teatro B", Precio = 320.50m, Artista = Artistas[1], Fecha = DateTime.Now.AddDays(20), Ciudad = "Guadalajara", Categoria = "Teatro", IsNew = true, IsSoldOut = false },
-            new Evento { Nombre = "Festival C", Precio = 790.00m, Artista = Artistas[2], Fecha = DateTime.Now.AddDays(45), Ciudad = "Monterrey", Categoria = "Festival", IsNew = false, IsSoldOut = true }
+new Evento
+{
+    Nombre = "Stairway To The Sky Tour",
+    Precio = 1850.00m,
+    Artista = Artistas[0],
+    Fecha = DateTime.Now.AddDays(12),
+    Ciudad = "Ciudad de México",
+    Categoria = "Concierto",
+    IsNew = true,
+    IsSoldOut = false
+},
+
+new Evento
+{
+    Nombre = " After Hours Til Dawn",
+    Precio = 2450.50m,
+    Artista = Artistas[1],
+    Fecha = DateTime.Now.AddDays(20),
+    Ciudad = "Guadalajara",
+    Categoria = "Concierto",
+    IsNew = true,
+    IsSoldOut = false
+},
+
+new Evento
+{
+    Nombre = "Tecate Pa'l Norte 2026",
+    Precio = 3890.00m,
+    Artista = Artistas[2],
+    Fecha = DateTime.Now.AddDays(45),
+    Ciudad = "Monterrey",
+    Categoria = "Festival",
+    IsNew = false,
+    IsSoldOut = true
+}
         };
 
         private static readonly List<Ticket> _tickets = new List<Ticket>();
