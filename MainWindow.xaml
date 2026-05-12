@@ -9,7 +9,7 @@
 
     <Window.Resources>
 
-        <!-- INPUTS -->
+        
         <Style x:Key="InputBox" TargetType="TextBox">
             <Setter Property="Margin" Value="0,6,0,6"/>
             <Setter Property="Padding" Value="5"/>
@@ -21,7 +21,7 @@
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
-        <!-- BOTÓN PRINCIPAL -->
+        
         <Style x:Key="PrimaryButton" TargetType="Button">
             <Setter Property="Background" Value="#2D89EF"/>
             <Setter Property="Foreground" Value="White"/>
@@ -65,7 +65,7 @@
             </Setter>
         </Style>
 
-        <!-- BOTÓN SECUNDARIO -->
+        
         <Style x:Key="SecondaryButton"
                TargetType="Button"
                BasedOn="{StaticResource PrimaryButton}">
@@ -78,7 +78,7 @@
 
     <Grid>
 
-        <!-- CONTENEDOR -->
+        
         <Border Width="500"
                 Height="380"
                 CornerRadius="12"
@@ -95,20 +95,20 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- HEADER -->
+               
                 <StackPanel Grid.Row="0"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             Margin="0,0,0,20">
 
-                    <!-- LOGO -->
+                    
                     <Image Source="/LOGO EVENTPASSMX.jpg"
                            Width="70"
                            Height="70"
                            Margin="0,0,12,0"
                            Stretch="Uniform"/>
 
-                    <!-- TEXTO -->
+                    
                     <StackPanel VerticalAlignment="Center">
 
                         <TextBlock Text="EventPass"
@@ -125,7 +125,7 @@
 
                 </StackPanel>
 
-                <!-- LOGIN -->
+                
                 <StackPanel Grid.Row="1"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
@@ -138,7 +138,7 @@
                         <TranslateTransform Y="10"/>
                     </StackPanel.RenderTransform>
 
-                    <!-- TÍTULO -->
+                    
                     <TextBlock Text="Inicia sesión"
                                Foreground="White"
                                FontSize="18"
@@ -146,7 +146,7 @@
                                HorizontalAlignment="Center"
                                Margin="0,6,0,15"/>
 
-                    <!-- USUARIO -->
+                   
                     <TextBlock Text="Usuario"
                                Foreground="#9FB6C3"
                                FontSize="10"/>
@@ -154,7 +154,7 @@
                     <TextBox x:Name="UsernameTextBox"
                              Style="{StaticResource InputBox}"/>
 
-                    <!-- PASSWORD -->
+                    
                     <TextBlock Text="Contraseña"
                                Foreground="#9FB6C3"
                                FontSize="10"
@@ -166,7 +166,7 @@
                                  FontSize="11"
                                  Height="28"/>
 
-                    <!-- BOTONES -->
+                    
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Center"
                                 Margin="0,18,0,0">
@@ -182,7 +182,7 @@
 
                     </StackPanel>
 
-                    <!-- MENSAJES -->
+                    
                     <TextBlock x:Name="StatusTextBlock"
                                Foreground="LightCoral"
                                TextWrapping="Wrap"
@@ -195,7 +195,7 @@
 
         </Border>
 
-        <!-- ANIMACIÓN -->
+        
         <Grid.Triggers>
 
             <EventTrigger RoutedEvent="Grid.Loaded">

@@ -23,7 +23,7 @@ namespace EventPassMX_programacion
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ResizeMode = ResizeMode.NoResize;
 
-            // 🎨 COLORES
+            
             var bg = new SolidColorBrush(Color.FromRgb(15, 15, 30));
             var card = new SolidColorBrush(Color.FromRgb(30, 30, 60));
             var accent = new SolidColorBrush(Color.FromRgb(120, 90, 255));
@@ -33,7 +33,7 @@ namespace EventPassMX_programacion
 
             var root = new DockPanel();
 
-            // 🔝 HEADER
+            
             var header = new Grid { Height = 60, Background = card };
             header.ColumnDefinitions.Add(new ColumnDefinition());
             header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -67,12 +67,12 @@ namespace EventPassMX_programacion
             DockPanel.SetDock(header, Dock.Top);
             root.Children.Add(header);
 
-            // 🧱 GRID PRINCIPAL
+            
             var grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(320) });
 
-            // 🎫 EVENTOS (cards)
+            
             panelEventos = new WrapPanel { Margin = new Thickness(15) };
 
             var scroll = new ScrollViewer
@@ -84,7 +84,7 @@ namespace EventPassMX_programacion
             Grid.SetColumn(scroll, 0);
             grid.Children.Add(scroll);
 
-            // 📄 PANEL DERECHO
+            
             var right = new StackPanel
             {
                 Background = card,
@@ -130,7 +130,7 @@ namespace EventPassMX_programacion
             LoadEvents(card, accent, text);
         }
 
-        // 🎫 CREAR TARJETAS
+        
         private void LoadEvents(Brush card, Brush accent, Brush text)
         {
             panelEventos.Children.Clear();
@@ -166,14 +166,14 @@ namespace EventPassMX_programacion
 
                 border.Child = stack;
 
-                // CLICK
+                
                 border.MouseLeftButtonUp += (s, e) =>
                 {
                     eventoSeleccionado = ev;
                     txtDetails.Text = $"🎤 {ev.Nombre}\n💲 Precio: ${ev.Precio}\n📅 Fecha: Próximamente";
                 };
 
-                // HOVER
+               
                 border.MouseEnter += (s, e) =>
                 {
                     border.Background = new SolidColorBrush(Color.FromRgb(60, 60, 120));

@@ -14,9 +14,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- 🔷 HEADER -->
+       
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-            <TextBlock Text="🧾"
+            <TextBlock Text=""
                        FontSize="28"
                        Margin="0,0,10,0"/>
             <TextBlock Text="Historial de Compras"
@@ -25,7 +25,6 @@
                        Foreground="#2C3E50"/>
         </StackPanel>
 
-        <!-- 📊 TABLA -->
         <Border Grid.Row="1"
                 Background="White"
                 CornerRadius="12"
@@ -51,13 +50,13 @@
             </DataGrid>
         </Border>
 
-        <!-- 🔘 BOTONES -->
+        
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Margin="0,15,0,0">
 
-            <Button Content="🔄 Actualizar"
+            <Button Content="Actualizar"
                     Width="130"
                     Margin="5"
                     Background="#3498DB"
@@ -67,7 +66,7 @@
                     Padding="10,6"
                     Cursor="Hand"/>
 
-            <Button Content="❌ Cerrar"
+            <Button Content="Cerrar"
                     Width="130"
                     Margin="5"
                     Background="#E74C3C"

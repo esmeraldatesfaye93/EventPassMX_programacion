@@ -33,7 +33,7 @@ namespace EventPassMX_programacion
                 Background = (Brush)Application.Current.Resources["HeaderGradient"],
                 Child = new TextBlock
                 {
-                    Text = "📸 Cámaras en vivo",
+                    Text = "Cámaras en vivo",
                     Foreground = Brushes.White,
                     FontSize = 20,
                     FontWeight = FontWeights.Bold,
@@ -133,7 +133,7 @@ namespace EventPassMX_programacion
                     return;
                 }
 
-                MessageBox.Show($"🎥 Transmisión en vivo:\n{ticket.Evento.Nombre}\nAcceso: {ticket.Access}");
+                MessageBox.Show($"Transmisión en vivo:\n{ticket.Evento.Nombre}\nAcceso: {ticket.Access}");
             }
             else
             {

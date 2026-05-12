@@ -31,7 +31,7 @@ namespace EventPassMX_programacion
             var scroll = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             var mainStack = new StackPanel { Margin = new Thickness(20) };
 
-            // Encabezado
+            
             mainStack.Children.Add(new TextBlock
             {
                 Text = "✓ ¡PAGO EXITOSO!",
@@ -42,7 +42,7 @@ namespace EventPassMX_programacion
                 Margin = new Thickness(0, 0, 0, 20)
             });
 
-            // Separador
+            
             mainStack.Children.Add(new Rectangle
             {
                 Height = 2,
@@ -50,7 +50,7 @@ namespace EventPassMX_programacion
                 Margin = new Thickness(0, 0, 0, 20)
             });
 
-            // Información del evento
+            
             mainStack.Children.Add(new TextBlock
             {
                 Text = "INFORMACIÓN DEL EVENTO",
@@ -68,7 +68,7 @@ namespace EventPassMX_programacion
 
             mainStack.Children.Add(new TextBlock { Margin = new Thickness(0, 15, 0, 0) });
 
-            // Información de compra
+            
             mainStack.Children.Add(new TextBlock
             {
                 Text = "INFORMACIÓN DE COMPRA",
@@ -86,7 +86,7 @@ namespace EventPassMX_programacion
 
             mainStack.Children.Add(new TextBlock { Margin = new Thickness(0, 15, 0, 0) });
 
-            // Información de pago
+            
             mainStack.Children.Add(new TextBlock
             {
                 Text = "INFORMACIÓN DE PAGO",
@@ -110,7 +110,7 @@ namespace EventPassMX_programacion
 
             mainStack.Children.Add(new TextBlock { Margin = new Thickness(0, 20, 0, 0) });
 
-            // Separador
+            
             mainStack.Children.Add(new Rectangle
             {
                 Height = 2,
@@ -118,7 +118,7 @@ namespace EventPassMX_programacion
                 Margin = new Thickness(0, 0, 0, 20)
             });
 
-            // Botones
+            
             var btnStack = new StackPanel { Orientation = Orientation.Vertical };
 
             var btnDescargar = new Button

@@ -31,7 +31,7 @@ namespace EventPassMX_programacion
             var scroll = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             var stack = new StackPanel { Margin = new Thickness(20) };
 
-            // Encabezado
+            
             stack.Children.Add(new TextBlock
             {
                 Text = "PAGO SEGURO",
@@ -41,14 +41,14 @@ namespace EventPassMX_programacion
                 Margin = new Thickness(0, 0, 0, 15)
             });
 
-            // Información del evento
+            
             stack.Children.Add(new TextBlock { Text = "Evento", Foreground = Brushes.Gray, FontSize = 11 });
             stack.Children.Add(new TextBlock { Text = evento.Nombre, Foreground = Brushes.White, FontSize = 14, Margin = new Thickness(0, 0, 0, 10) });
 
             stack.Children.Add(new TextBlock { Text = "Tipo de Acceso", Foreground = Brushes.Gray, FontSize = 11 });
             stack.Children.Add(new TextBlock { Text = tipo.ToString(), Foreground = Brushes.LimeGreen, FontSize = 14, Margin = new Thickness(0, 0, 0, 10) });
 
-            // Cantidad
+            
             stack.Children.Add(new TextBlock { Text = "Cantidad de Boletos", Foreground = Brushes.Gray, FontSize = 11 });
             txtQuantity = new TextBox
             {
@@ -62,7 +62,7 @@ namespace EventPassMX_programacion
             };
             stack.Children.Add(txtQuantity);
 
-            // Total
+            
             var totalPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 15) };
             totalPanel.Children.Add(new TextBlock { Text = "Total: ", Foreground = Brushes.Gray });
             var totalBlock = new TextBlock
@@ -75,7 +75,7 @@ namespace EventPassMX_programacion
             totalPanel.Children.Add(totalBlock);
             stack.Children.Add(totalPanel);
 
-            // Número de tarjeta
+            
             stack.Children.Add(new TextBlock { Text = "Número de Tarjeta", Foreground = Brushes.Gray, FontSize = 11 });
             txtCard = new TextBox
             {
@@ -89,7 +89,7 @@ namespace EventPassMX_programacion
             txtCard.TextChanged += (s, e) => UpdateTotal(totalBlock);
             stack.Children.Add(txtCard);
 
-            // Nombre en tarjeta
+            
             stack.Children.Add(new TextBlock { Text = "Nombre en Tarjeta", Foreground = Brushes.Gray, FontSize = 11 });
             txtName = new TextBox
             {
@@ -102,7 +102,7 @@ namespace EventPassMX_programacion
             };
             stack.Children.Add(txtName);
 
-            // Botones
+            
             var btnStack = new StackPanel { Orientation = Orientation.Horizontal };
             var btnPagar = new Button
             {
@@ -120,7 +120,7 @@ namespace EventPassMX_programacion
 
             var btnCancelar = new Button
             {
-                Content = "✕ Cancelar",
+                Content = "Cancelar",
                 Background = new SolidColorBrush(Color.FromRgb(200, 50, 50)),
                 Foreground = Brushes.White,
                 Height = 45,
@@ -150,7 +150,7 @@ namespace EventPassMX_programacion
 
         private void BtnPagar_Click(object sender, RoutedEventArgs e)
         {
-            // Validar cantidad
+            
             if (!int.TryParse(txtQuantity.Text, out int cantidad) || cantidad <= 0)
             {
                 MessageBox.Show("Por favor ingresa una cantidad válida de boletos (mínimo 1).", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -158,7 +158,6 @@ namespace EventPassMX_programacion
                 return;
             }
 
-            // Validar tarjeta
             if (string.IsNullOrWhiteSpace(txtCard.Text))
             {
                 MessageBox.Show("Por favor ingresa el número de tarjeta.", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -173,7 +172,7 @@ namespace EventPassMX_programacion
                 return;
             }
 
-            // Validar nombre
+
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
                 MessageBox.Show("Por favor ingresa el nombre en la tarjeta.", "Error de Validación", MessageBoxButton.OK, MessageBoxImage.Warning);

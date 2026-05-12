@@ -22,14 +22,13 @@ namespace EventPassMX_programacion
 
             try
             {
-                // Crear el PDF con FileStream para control total
+                
                 using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     PdfWriter writer = new PdfWriter(fs);
                     PdfDocument pdf = new PdfDocument(writer);
                     Document doc = new Document(pdf);
 
-                    // ENCABEZADO
                     doc.Add(new Paragraph("EVENTPASS MX")
                         .SetFontSize(24)
                         .SetFontColor(ColorConstants.BLUE)
@@ -42,7 +41,7 @@ namespace EventPassMX_programacion
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetMarginBottom(20));
 
-                    // INFORMACIÓN DEL EVENTO
+                    
                     doc.Add(CrearEncabezadoSeccion("INFORMACIÓN DEL EVENTO"));
                     doc.Add(CrearLinea("Evento:", t.Evento.Nombre));
                     doc.Add(CrearLinea("Artista:", t.Evento.Artista?.Nombre ?? "N/A"));
@@ -51,7 +50,7 @@ namespace EventPassMX_programacion
                     doc.Add(CrearLinea("Categoría:", t.Evento.Categoria));
                     doc.Add(new Paragraph(" "));
 
-                    // DETALLES DE COMPRA
+                    
                     doc.Add(CrearEncabezadoSeccion("DETALLES DE COMPRA"));
                     doc.Add(CrearLinea("Comprador:", t.Usuario));
                     doc.Add(CrearLinea("Tipo de Acceso:", t.Access.ToString()));
@@ -60,7 +59,7 @@ namespace EventPassMX_programacion
                     doc.Add(CrearLinea("Fecha de Compra:", t.FechaCompra.ToString("dd/MM/yyyy")));
                     doc.Add(new Paragraph(" "));
 
-                    // INFORMACIÓN DE PAGO
+                    
                     doc.Add(CrearEncabezadoSeccion("INFORMACIÓN DE PAGO"));
                     doc.Add(CrearLinea("Precio Unitario:", $"${t.Precio}"));
 
@@ -70,7 +69,7 @@ namespace EventPassMX_programacion
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetMarginBottom(20));
 
-                    // FOLIO
+                    
                     doc.Add(new Paragraph("_________________________________________________________________")
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetMarginBottom(10));
@@ -86,7 +85,7 @@ namespace EventPassMX_programacion
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetMarginBottom(20));
 
-                    // CÓDIGO QR
+                    
                     try
                     {
                         QRCodeGenerator qrGen = new QRCodeGenerator();
@@ -94,13 +93,12 @@ namespace EventPassMX_programacion
                         QRCode qrCode = new QRCode(qrData);
                         Bitmap qrImage = qrCode.GetGraphic(20);
 
-                        // Guardar imagen temporal
+                        
                         string tempImagePath = Path.Combine(Path.GetTempPath(), $"qr_{t.Id}.png");
                         qrImage.Save(tempImagePath);
 
                         try
                         {
-                            // Agregar imagen al PDF
                             var imgData = iText.IO.Image.ImageDataFactory.Create(tempImagePath);
                             doc.Add(new iText.Layout.Element.Image(imgData)
                                 .SetWidth(100)
@@ -109,7 +107,7 @@ namespace EventPassMX_programacion
                         }
                         finally
                         {
-                            // Limpiar archivo temporal
+                            
                             if (File.Exists(tempImagePath))
                             {
                                 try { File.Delete(tempImagePath); } catch { }
@@ -121,7 +119,7 @@ namespace EventPassMX_programacion
                         System.Diagnostics.Debug.WriteLine($"Advertencia: Error generando QR: {qrEx.Message}");
                     }
 
-                    // PIE DE PÁGINA
+                    
                     doc.Add(new Paragraph("_________________________________________________________________")
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetMarginBottom(10));

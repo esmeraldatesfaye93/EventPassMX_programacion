@@ -14,20 +14,28 @@ namespace EventPassMX_programacion
         public SimpleLoginWindow()
         {
             this.Title = "Login - EventPass MX";
-            this.Width = 300;
-            this.Height = 315;
+            this.Width = 500;
+            this.Height = 600;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 45));
             this.ResizeMode = ResizeMode.NoResize;
 
             var stack = new StackPanel
             {
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Width = 220
+                Width = 220,
+                Margin = new Thickness(0, 30, 0, 30)
             };
 
-            // LOGO
+            var scrollViewer = new ScrollViewer
+            {
+                Content = stack,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled
+            };
+
+            
             var logo = new Image
             {
                 Source = new BitmapImage(new Uri(
@@ -42,7 +50,7 @@ namespace EventPassMX_programacion
 
             stack.Children.Add(logo);
 
-            // TÍTULO
+            
             stack.Children.Add(new TextBlock
             {
                 Text = "EventPass MX",
@@ -53,7 +61,7 @@ namespace EventPassMX_programacion
                 Margin = new Thickness(0, 0, 0, 15)
             });
 
-            // USUARIO
+            
             stack.Children.Add(new TextBlock
             {
                 Text = "Usuario",
@@ -71,7 +79,7 @@ namespace EventPassMX_programacion
 
             stack.Children.Add(txtUser);
 
-            // CONTRASEÑA
+            
             stack.Children.Add(new TextBlock
             {
                 Text = "Contraseña",
@@ -89,7 +97,7 @@ namespace EventPassMX_programacion
 
             stack.Children.Add(txtPass);
 
-            // BOTONES
+            
             var buttons = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
@@ -127,7 +135,7 @@ namespace EventPassMX_programacion
 
             stack.Children.Add(buttons);
 
-            this.Content = stack;
+            this.Content = scrollViewer;
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
